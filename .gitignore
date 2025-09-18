@@ -1,0 +1,9 @@
+venv/
+.env/
+.venv/
+ENV/
+__pycache__/
+data/
+artifacts/
+checkpoints/
+logs/

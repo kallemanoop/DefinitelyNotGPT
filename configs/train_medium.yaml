@@ -1,0 +1,47 @@
+# configs/train_medium.yaml
+
+run_name: "slm-medium"
+seed: 1337
+
+# data
+tokenizer_dir: "artifacts/tokenizer"
+train_shards: ["artifacts/shards/train_*.npy"]
+val_shards:   ["artifacts/shards/val_*.npy"]
+
+# model
+vocab_json: "artifacts/tokenizer/vocab.json"
+max_seq_len: 256         # increase context window
+d_model: 512             # embedding dim (was 256)
+n_heads: 8               # must divide d_model
+n_layers: 12             # deeper network
+d_mlp: 2048              # feedforward hidden size
+dropout: 0.1
+attn_dropout: 0.1
+mlp_dropout: 0.1
+rope_theta: 10000.0
+bias: false
+rms_eps: 1e-5
+
+# optimization
+device: "cuda"
+dtype: "float16"         # "float32" | "float16" | "bfloat16"
+batch_size: 2     
+grad_accum_steps: 16     
+lr: 3.0e-4
+weight_decay: 0.1
+betas: [0.9, 0.95]
+eps: 1e-8
+warmup_steps: 2000       
+max_steps: 75000
+grad_clip: 1.0
+
+# checkpointing / eval
+ckpt_dir: "artifacts/checkpoints/slm-medium"
+eval_every_steps: 500
+save_every_steps: 1000
+log_every_steps: 50
+
+# data prep
+corpus_train: ["data/corpus_1gb_clean.txt"]
+corpus_val:   ["data/corpus_1gb_clean.txt"]
+shard_tokens: 2_000_000

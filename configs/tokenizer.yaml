@@ -1,0 +1,19 @@
+# Tokenizer training config
+model_dir: "artifacts/tokenizer"
+vocab_size: 32000
+min_freq: 2
+special_tokens:
+  - "<pad>"
+  - "<unk>"
+  - "<bos>"
+  - "<eos>"
+  - "<mask>"
+  - "<sep>"
+  - "<cls>"
+training_corpus:
+  - "data/corpus_1gb_clean.txt"     
+byte_fallback: true       
+lowercase: false          
+max_input_chars_per_token: 100
+save_merges: true
+random_seed: 42

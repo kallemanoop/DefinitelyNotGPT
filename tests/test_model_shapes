@@ -1,0 +1,17 @@
+import torch
+from slm.model import ModelConfig, TransformerLM
+
+def test_forward_shapes():
+    cfg = ModelConfig(vocab_size=9500, max_seq_len=64, d_model=256, n_heads=8, n_layers=4, d_mlp=1024)
+    model = TransformerLM(cfg)
+    x = torch.randint(0, cfg.vocab_size, (2, 16))
+    logits, loss = model(x, labels=x)
+    assert logits.shape == (2, 16, cfg.vocab_size)
+    assert loss is not None
+
+def test_generate_increments():
+    cfg = ModelConfig(vocab_size=9500, max_seq_len=64, d_model=256, n_heads=8, n_layers=2, d_mlp=1024)
+    model = TransformerLM(cfg)
+    x = torch.randint(0, cfg.vocab_size, (1, 5))
+    out = model.generate(x, max_new_tokens=5, temperature=1.0, top_k=10)
+    assert out.shape[1] == 10
